@@ -261,6 +261,14 @@ namespace SpellSearch
             bodyDuration.Size = new Size(690, 20);
             bodyPanel.Controls.Add(bodyDuration);
 
+            // Components
+            Label bodyComponents = new Label();
+            bodyComponents.Text = "Components: " + spell.GetComponents();
+            bodyComponents.Font = new Font("Consolas", 10, FontStyle.Regular);
+            bodyComponents.Location = new Point(0, 63);
+            bodyComponents.Size = new Size(690, 20);
+            bodyPanel.Controls.Add(bodyComponents);
+
             // Available Classes
             Label bodyClasses = new Label();
             bodyClasses.Text = "Available Classes: ";
@@ -275,7 +283,7 @@ namespace SpellSearch
             
             bodyClasses.Text = bodyClasses.Text.Substring(0, bodyClasses.Text.Length - 2);
             bodyClasses.Font = new Font("Consolas", 10, FontStyle.Regular);
-            bodyClasses.Location = new Point(0, 63);
+            bodyClasses.Location = new Point(0, 84);
             bodyClasses.Size = new Size(690, 20);
             //bodyClasses.BorderStyle = BorderStyle.FixedSingle;
             bodyPanel.Controls.Add(bodyClasses);
@@ -286,7 +294,7 @@ namespace SpellSearch
             bodyDescription.Font = new Font("Consolas", 10, FontStyle.Regular);
             bodyDescription.Size = new Size(690, 120);
             //bodyDescription.BorderStyle = BorderStyle.FixedSingle;
-            bodyDescription.Location = new Point(0, 84);
+            bodyDescription.Location = new Point(0, 105);
             bodyPanel.Controls.Add(bodyDescription);
 
 

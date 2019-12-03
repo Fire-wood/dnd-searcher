@@ -11,7 +11,7 @@ namespace SpellSearch
     enum Unit { Action, Instantaneous, Hour, Hours, Minute, Minutes, Reaction, Round, Invalid };
     public enum Classes { Bard, Cleric, Druid, Paladin, Ranger, Sorcerer, Warlock, Wizard, Invalid };
     public enum AoE { None, Cone, Cube, Cylinder, Line, Sphere, Invalid };
-    enum Components { Verbal, Somatic, Material };
+    enum Components { Verbal, Somatic, Material, Invalid };
     enum ReferenceBook { PHB, XGtE, SCAG, EE, UA, Invalid };
 
     public class Spell
@@ -44,7 +44,6 @@ namespace SpellSearch
             string[] properties = spellFile.Split('\n');
 
             this._level = Int32.Parse(SearchFor(properties, "level: ", "Unknown Level"));
-            //this._range = Int32.Parse(SearchFor(properties, "range: ", "Unknown Range"));
             DetermineRange(SearchFor(properties, "range: ", "Unknown Range"));
             DetermineCastingTime(SearchFor(properties, "casting: ", "Unknown Casting Time"));
             DetermineDuration(SearchFor(properties, "duration: ", "Unknown Duration"));
@@ -87,6 +86,17 @@ namespace SpellSearch
         public string GetEdition()
         {
             return this._edition.ToString() + "e";
+        }
+
+        public string GetComponents()
+        {
+            string s = "";
+            foreach(Components c in this._requiredComponents)
+            {
+                s += c.ToString() + ", ";
+            }
+            s = s.Substring(0, s.Length - 2) + " ";
+            return s += this._materials;
         }
 
         public string GetRange()
@@ -329,16 +339,39 @@ namespace SpellSearch
             string[] components = componentsFile.Trim().Split(',');
             _requiredComponents = new List<Components>();
 
+            foreach(string s in components)
+            {
+                switch (s.Trim().ToLower())
+                {
+                    case "vocal":
+                    case "v":
+                        _requiredComponents.Add(Components.Verbal);
+                        break;
+                    case "sematic":
+                    case "s":
+                        _requiredComponents.Add(Components.Somatic);
+                        break;
+                    case "material":
+                    case "m":
+                        _requiredComponents.Add(Components.Material);
+                        this._materials = components[components.Count() - 1];
+                        return;
+                    default:
+                        this._requiredComponents.Add(Components.Invalid);
+                        break;
+                }
+            }
+            
+
             if(components.Contains("Vocal"))
             {
-                _requiredComponents.Add(Components.Verbal);
+                
             } else if(components.Contains("Sematic"))
             {
-                _requiredComponents.Add(Components.Somatic);
+                
             } else if(components.Contains("Material"))
             {
-                _requiredComponents.Add(Components.Material);
-                this._materials = components[components.Count()-1];
+                
             }
         }
 
