@@ -10,6 +10,7 @@ namespace SpellSearch
     public enum School { Abjuration, Conjuration, Divination, Enchantment, Evocation, Illusion, Necromancy, Transmutation, Invalid };
     enum Unit { Action, Instantaneous, Hour, Hours, Minute, Minutes, Reaction, Round, Invalid };
     public enum Classes { Bard, Cleric, Druid, Paladin, Ranger, Sorcerer, Warlock, Wizard, Invalid };
+    public enum AoE { None, Cone, Cube, Cylinder, Line, Sphere, Invalid };
     enum Components { Verbal, Somatic, Material };
     enum ReferenceBook { PHB, XGtE, SCAG, EE, UA, Invalid };
 
@@ -17,6 +18,7 @@ namespace SpellSearch
     {
         private int _level;
         private int _range; // in feet
+        private int _rangeAoE;
         private int _castingTime;
         private int _durationTime;
         private int _bookPage;
@@ -25,6 +27,7 @@ namespace SpellSearch
 
         private Unit _castingUnit;
         private Unit _durationUnit;
+        private AoE _aoe;
         private School _school;
         private ReferenceBook _book;
         private List<Classes> _availableClasses;
@@ -39,22 +42,6 @@ namespace SpellSearch
         public Spell(string name, string spellFile) {
             this._spellName = name;
             string[] properties = spellFile.Split('\n');
-
-            // Level
-            /*try
-            {
-                for(int i = 0; i < properties.Length; i++)
-                {
-                    if(properties[i].ToLower().Contains("level: "))
-                    {
-                        _level = Int32.Parse(properties[i].Substring(7).Trim());
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                Console.WriteLine("Unknown Level");
-            }*/
 
             this._level = Int32.Parse(SearchFor(properties, "level: ", "Unknown Level"));
             //this._range = Int32.Parse(SearchFor(properties, "range: ", "Unknown Range"));
@@ -104,13 +91,20 @@ namespace SpellSearch
 
         public string GetRange()
         {
+            string s = "";
             if(this._range == -2)
             {
-                return "Self";
+                s += "Self";
             } else
             {
-                return this._range.ToString();
+                s += this._range.ToString() + " feet";
             }
+
+            if(this._aoe != AoE.None && this._aoe != AoE.Invalid)
+            {
+                s += " (" + this._rangeAoE + " " + this._aoe.ToString() + ") ";
+            }
+            return s;
         }
 
         public string GetCastingTime()
@@ -201,16 +195,39 @@ namespace SpellSearch
         private void DetermineRange(string rangeFile)
         {
             string[] r = rangeFile.Split(' ');
-            if(r.Length == 1)
+
+            if (!Int32.TryParse(r[0], out this._range))
             {
-                if(!Int32.TryParse(r[0], out this._range))
-                {
-                    this._range = -2;
-                }
-            } else
-            {
-                this._range = -1;
+                this._range = -2; // Self
+                this._aoe = AoE.None;
             }
+
+            // AoE involved
+             if(r.Length == 3)
+            {
+                this._rangeAoE = Int32.Parse(r[1]);
+                switch (r[2].Trim().ToLower())
+                {
+                    case "cone":
+                        this._aoe = AoE.Cone;
+                        break;
+                    case "cube":
+                        this._aoe = AoE.Cube;
+                        break;
+                    case "cylinder":
+                        this._aoe = AoE.Cylinder;
+                        break;
+                    case "line":
+                        this._aoe = AoE.Line;
+                        break;
+                    case "sphere":
+                        this._aoe = AoE.Sphere;
+                        break;
+                    default:
+                        this._aoe = AoE.Invalid;
+                        break;
+                } 
+            } 
         }
 
         private void DetermineEdition(string editionFile)
