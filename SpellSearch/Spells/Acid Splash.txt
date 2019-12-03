@@ -1,0 +1,10 @@
+Level: 0
+Range: 60
+Casting: 1 Action
+Duration: Instantaneous
+School: Conjuration
+Classes: Sorcerer, Wizard
+Components: V, S
+Book: PHB 211
+Edition: 5e
+Description: You hurl a bubble of acid. Choose one creature within range, or choose two creatures within range that are within 5 feet of each other. A target must succeed on a Dexterity saving throw or take 1d6 acid damage.

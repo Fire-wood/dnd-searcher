@@ -1,0 +1,10 @@
+I:\Code\SpellSearch\SpellSearch\bin\Debug\SpellSearch.exe.config
+I:\Code\SpellSearch\SpellSearch\bin\Debug\SpellSearch.exe
+I:\Code\SpellSearch\SpellSearch\bin\Debug\SpellSearch.pdb
+I:\Code\SpellSearch\SpellSearch\obj\Debug\SpellSearch.csprojAssemblyReference.cache
+I:\Code\SpellSearch\SpellSearch\obj\Debug\SpellSearch.SpellSearcher.resources
+I:\Code\SpellSearch\SpellSearch\obj\Debug\SpellSearch.Properties.Resources.resources
+I:\Code\SpellSearch\SpellSearch\obj\Debug\SpellSearch.csproj.GenerateResource.cache
+I:\Code\SpellSearch\SpellSearch\obj\Debug\SpellSearch.csproj.CoreCompileInputs.cache
+I:\Code\SpellSearch\SpellSearch\obj\Debug\SpellSearch.exe
+I:\Code\SpellSearch\SpellSearch\obj\Debug\SpellSearch.pdb

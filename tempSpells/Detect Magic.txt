@@ -1,0 +1,8 @@
+Level: 1
+Casting: 1 Action
+Range: Self
+Components: V, S
+Duration: 10 Minutes
+School: Divination
+Classes: Bard, Cleric, Druid, Ranger, Paladin, Sorcerer, Wizard
+Book: PHB 231s
