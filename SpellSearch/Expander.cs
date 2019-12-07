@@ -293,13 +293,6 @@ namespace SpellSearch
             bodyPanel.Controls.Add(bodyClasses);
 
             // Spell Description
-            /*Label bodyDescription = new Label();
-            bodyDescription.Text = spell.GetDescription();
-            bodyDescription.Font = new Font("Consolas", 10, FontStyle.Regular);
-            bodyDescription.Size = new Size(690, 120);
-            //bodyDescription.BorderStyle = BorderStyle.FixedSingle;
-            bodyDescription.Location = new Point(0, 105);
-            bodyPanel.Controls.Add(bodyDescription);*/
             Label bodyDescription = GenerateLabel(labelFont, new Size(690, 120), 105);
             bodyDescription.Text = spell.GetDescription();
             bodyPanel.Controls.Add(bodyDescription);
@@ -307,9 +300,17 @@ namespace SpellSearch
             // Spell Higher Description
             if(spell.GetHigherDescription() != "")
             {
-                Label bodyHigher = GenerateLabel(labelFont, new Size(690, 30), 250);
+                Label bodyHigher = GenerateLabel(labelFont, new Size(690, 60), 250);
                 bodyHigher.Text = "At higher Levels: " + spell.GetHigherDescription();
                 bodyPanel.Controls.Add(bodyHigher);
+            }
+
+            // DM Note
+            if(spell.GetDMNote() != "")
+            {
+                Label bodyDM = GenerateLabel(labelFont, new Size(690, 50), 270);
+                bodyDM.Text = "Game Master's Note: " + spell.GetDMNote();
+                bodyPanel.Controls.Add(bodyDM);
             }
 
             expander.Content = bodyPanel;
