@@ -49,6 +49,7 @@ namespace SpellSearch
         {
             this.KeyPreview = true;
             this.Focus();
+            updateSpellList();
             /*
             Expander expander = new Expander();
             expander.Size = new Size(250, 400);
@@ -67,7 +68,7 @@ namespace SpellSearch
             */
         }
 
-        private void spellSearchBox_TextChanged(object sender, EventArgs e)
+        private void updateSpellList()
         {
             List<Spell> matches = new List<Spell>();
 
@@ -93,7 +94,7 @@ namespace SpellSearch
                 {
 
                     Expander spellEntry = new Expander();
-                    spellEntry.Size = new Size(690, 80);
+                    spellEntry.Size = new Size(690, 100);
                     spellEntry.Location = new Point(20, y);
                     spellEntry.BorderStyle = BorderStyle.Fixed3D;
                     //spellEntry.BackColor = Color.Aqua;
@@ -102,7 +103,7 @@ namespace SpellSearch
                     ExpanderHelper.CreateSpellExpander(spellEntry, matches[j], Properties.Resources.Collapse, Properties.Resources.Expand);
                     spellEntry.Collapse();
 
-                    switch(matches[j].GetSchool())
+                    switch (matches[j].GetSchool())
                     {
                         case School.Abjuration:
                             spellEntry.BackColor = Color.AliceBlue;
@@ -131,7 +132,7 @@ namespace SpellSearch
 
                     spellsPanel.Show();
                     y += boxHeight / 2;
-                    
+
                 }
             }
 
@@ -140,6 +141,12 @@ namespace SpellSearch
                 Console.WriteLine("Unknown Input");
                 return;
             }
+        }
+
+
+        private void spellSearchBox_TextChanged(object sender, EventArgs e)
+        {
+            updateSpellList();
         }
 
     }

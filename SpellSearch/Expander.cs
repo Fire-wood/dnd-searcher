@@ -170,6 +170,10 @@ namespace SpellSearch
 
         public static Panel CreateSpellExpander(Expander expander, Spell spell, Image collapsedImage = null, Image expandedImage = null, int height = 25)
         {
+            Font labelFont = new Font("Consolas", 10, FontStyle.Regular);
+            Size labelSize = new Size(690, 20);
+
+
             // Header Panel Parts
             Panel headerPanel = new Panel();
             headerPanel.Size = new Size(690, 40);
@@ -233,7 +237,7 @@ namespace SpellSearch
 
             // Body Panel Components
             Panel bodyPanel = new Panel();
-            bodyPanel.Size = new System.Drawing.Size(expander.Width, 200);
+            bodyPanel.Size = new System.Drawing.Size(expander.Width, 550);
             bodyPanel.Font = new Font("Consolas", 10, FontStyle.Regular);
             bodyPanel.BorderStyle = BorderStyle.FixedSingle;
 
@@ -289,14 +293,24 @@ namespace SpellSearch
             bodyPanel.Controls.Add(bodyClasses);
 
             // Spell Description
-            Label bodyDescription = new Label();
+            /*Label bodyDescription = new Label();
             bodyDescription.Text = spell.GetDescription();
             bodyDescription.Font = new Font("Consolas", 10, FontStyle.Regular);
             bodyDescription.Size = new Size(690, 120);
             //bodyDescription.BorderStyle = BorderStyle.FixedSingle;
             bodyDescription.Location = new Point(0, 105);
+            bodyPanel.Controls.Add(bodyDescription);*/
+            Label bodyDescription = GenerateLabel(labelFont, new Size(690, 120), 105);
+            bodyDescription.Text = spell.GetDescription();
             bodyPanel.Controls.Add(bodyDescription);
 
+            // Spell Higher Description
+            if(spell.GetHigherDescription() != "")
+            {
+                Label bodyHigher = GenerateLabel(labelFont, new Size(690, 30), 250);
+                bodyHigher.Text = "At higher Levels: " + spell.GetHigherDescription();
+                bodyPanel.Controls.Add(bodyHigher);
+            }
 
             expander.Content = bodyPanel;
             //spellsPanel.Controls.Add(expander);
@@ -307,5 +321,14 @@ namespace SpellSearch
             return headerPanel;
         }
 
+        static private Label GenerateLabel(Font f, Size s, int ypos)
+        {
+            Label l = new Label();
+            l.Font = f;
+            l.Size = s;
+            l.Location = new Point(0, ypos);
+
+            return l;
+        }
     }
 }

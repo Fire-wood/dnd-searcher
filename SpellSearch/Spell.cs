@@ -144,6 +144,16 @@ namespace SpellSearch
             return _description;
         }
 
+        public string GetHigherDescription()
+        {
+            return _spellHigherDescription;
+        }
+
+        public string GetDMNote()
+        {
+            return _dmNote;
+        }
+
         # endregion;
 
         private string SearchFor(string[] spellProperties, string word, string catchDescription)
@@ -360,18 +370,6 @@ namespace SpellSearch
                         this._requiredComponents.Add(Components.Invalid);
                         break;
                 }
-            }
-            
-
-            if(components.Contains("Vocal"))
-            {
-                
-            } else if(components.Contains("Sematic"))
-            {
-                
-            } else if(components.Contains("Material"))
-            {
-                
             }
         }
 
