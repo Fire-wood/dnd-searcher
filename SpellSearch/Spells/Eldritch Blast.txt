@@ -1,0 +1,11 @@
+Level: 0
+Casting: 1 Action
+Range: 120
+Components: V, S
+Duration: Instantaneous
+School: Evocation
+Book: PHB 237
+Classes: Warlock
+Edition: 5
+Description: A beam of crackling energy streaks toward a creature within range. Make a ranged spell attack against the target. On a hit, the target takes 1d10 force damage. 
+Higher levels: The spell creates more than one beam when you reach higher levels:\nTwo beams at 5th level\nThree beams at 11th level\nFour beams at 17th level.\nYou can direct the beams at the same target or at different ones. Make a separate attack roll for each beam. 
