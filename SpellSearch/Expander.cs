@@ -237,46 +237,42 @@ namespace SpellSearch
 
             // Body Panel Components
             Panel bodyPanel = new Panel();
-            bodyPanel.Size = new System.Drawing.Size(expander.Width, 550);
             bodyPanel.Font = new Font("Consolas", 10, FontStyle.Regular);
             bodyPanel.BorderStyle = BorderStyle.FixedSingle;
+            bodyPanel.AutoSize = true;
+            bodyPanel.MaximumSize = new Size(expander.Width, 0);
 
+            int cumulativeY = 0;
+            
             // Spell Range
-            Label bodyRange = new Label();
+            Label bodyRange = GenerateLabel(labelFont, cumulativeY, expander.Width);
             bodyRange.Text = "Range: " + spell.GetRange();
-            //bodyRange.Font = new Font("Consolas", 10, FontStyle.Regular);
-            bodyRange.Location = new Point(0, 0);
-            bodyRange.Size = new Size(690, 20);
             bodyPanel.Controls.Add(bodyRange);
+            cumulativeY += bodyRange.Height;
 
             // Spell Casting Time
-            Label labelContent = new Label();
-            labelContent.Text = "Casting Time: " + spell.GetCastingTime();
-            labelContent.Font = new Font("Consolas", 10, FontStyle.Regular);
-            labelContent.Location = new Point(0, 21);
-            labelContent.Size = new Size(690, 20);
-            bodyPanel.Controls.Add(labelContent);
+            Label bodyCasting = GenerateLabel(labelFont, cumulativeY, expander.Width);
+            bodyCasting.Text = "Casting Time: " + spell.GetCastingTime();
+            bodyPanel.Controls.Add(bodyCasting);
+            cumulativeY += bodyCasting.Height;
+
 
             // Spell Duration
-            Label bodyDuration = new Label();
+            Label bodyDuration = GenerateLabel(labelFont, cumulativeY, expander.Width);
             bodyDuration.Text = "Duration: " + spell.GetDuration();
-            bodyDuration.Font = new Font("Consolas", 10, FontStyle.Regular);
-            bodyDuration.Location = new Point(0, 42);
-            bodyDuration.Size = new Size(690, 20);
             bodyPanel.Controls.Add(bodyDuration);
+            cumulativeY += bodyDuration.Height;
 
             // Components
-            Label bodyComponents = new Label();
+            Label bodyComponents = GenerateLabel(labelFont, cumulativeY, expander.Width);
             bodyComponents.Text = "Components: " + spell.GetComponents();
-            bodyComponents.Font = new Font("Consolas", 10, FontStyle.Regular);
-            bodyComponents.Location = new Point(0, 63);
-            bodyComponents.Size = new Size(690, 20);
             bodyPanel.Controls.Add(bodyComponents);
+            cumulativeY += bodyComponents.Height;
 
             // Available Classes
-            Label bodyClasses = new Label();
+            Label bodyClasses = GenerateLabel(labelFont, cumulativeY, expander.Width);
             bodyClasses.Text = "Available Classes: ";
-            if(!spell.GetClasses().Equals(null) && spell.GetClasses().Count > 0)
+            if (!spell.GetClasses().Equals(null) && spell.GetClasses().Count > 0)
             {
                 foreach (Classes c in spell.GetClasses())
                 {
@@ -284,33 +280,33 @@ namespace SpellSearch
                     bodyClasses.Text += ", ";
                 }
             }
-            
             bodyClasses.Text = bodyClasses.Text.Substring(0, bodyClasses.Text.Length - 2);
-            bodyClasses.Font = new Font("Consolas", 10, FontStyle.Regular);
-            bodyClasses.Location = new Point(0, 84);
-            bodyClasses.Size = new Size(690, 20);
-            //bodyClasses.BorderStyle = BorderStyle.FixedSingle;
             bodyPanel.Controls.Add(bodyClasses);
+            cumulativeY += bodyClasses.Height;
 
             // Spell Description
-            Label bodyDescription = GenerateLabel(labelFont, new Size(690, 120), 105);
-            bodyDescription.Text = spell.GetDescription();
+            Label bodyDescription = GenerateLabel(labelFont, cumulativeY, expander.Width);
+            bodyDescription.Text = "\n" + spell.GetDescription().Replace("\\n", "\n") + "\n";
+
             bodyPanel.Controls.Add(bodyDescription);
+            cumulativeY += bodyDescription.Height + 5;
 
             // Spell Higher Description
-            if(spell.GetHigherDescription() != "")
+            if (spell.GetHigherDescription() != "")
             {
-                Label bodyHigher = GenerateLabel(labelFont, new Size(690, 60), 250);
-                bodyHigher.Text = "At higher Levels: " + spell.GetHigherDescription();
+                Label bodyHigher = GenerateLabel(labelFont, cumulativeY, expander.Width);
+                bodyHigher.Text = "At higher Levels: " + spell.GetHigherDescription() + "\n";
                 bodyPanel.Controls.Add(bodyHigher);
+                cumulativeY += bodyHigher.Height + 5;
             }
 
             // DM Note
             if(spell.GetDMNote() != "")
             {
-                Label bodyDM = GenerateLabel(labelFont, new Size(690, 50), 270);
-                bodyDM.Text = "Game Master's Note: " + spell.GetDMNote();
+                Label bodyDM = GenerateLabel(labelFont, cumulativeY, expander.Width);
+                bodyDM.Text = "Game Master's Note: " + spell.GetDMNote() + "\n";
                 bodyPanel.Controls.Add(bodyDM);
+                cumulativeY += bodyDM.Height + 5;
             }
 
             expander.Content = bodyPanel;
@@ -322,12 +318,15 @@ namespace SpellSearch
             return headerPanel;
         }
 
-        static private Label GenerateLabel(Font f, Size s, int ypos)
+        static private Label GenerateLabel(Font f, int ypos, int expanderWidth)
         {
             Label l = new Label();
             l.Font = f;
-            l.Size = s;
+            //l.Size = s;
             l.Location = new Point(0, ypos);
+            l.AutoSize = true;
+            l.MaximumSize = new Size(expanderWidth, 0);
+            l.Margin = new Padding(5);
 
             return l;
         }

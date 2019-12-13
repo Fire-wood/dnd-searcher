@@ -25,6 +25,9 @@ namespace SpellSearch
 
         private float _edition;
 
+        private bool _ritual;
+        private bool _concentration;
+
         private Unit _castingUnit;
         private Unit _durationUnit;
         private AoE _aoe;
@@ -44,6 +47,7 @@ namespace SpellSearch
             string[] properties = spellFile.Split('\n');
 
             this._level = Int32.Parse(SearchFor(properties, "level: ", "Unknown Level"));
+            Boolean.TryParse(SearchFor(properties, "ritual", ""), out this._ritual);
             DetermineRange(SearchFor(properties, "range: ", "Unknown Range"));
             DetermineCastingTime(SearchFor(properties, "casting: ", "Unknown Casting Time"));
             DetermineDuration(SearchFor(properties, "duration: ", "Unknown Duration"));
@@ -175,7 +179,6 @@ namespace SpellSearch
                 return "";
             }
         }
-
 
         // Determine which school of magic this spells applies to
         private void DetermineSchool(string schoolFile)
