@@ -25,8 +25,8 @@ namespace SpellSearch
 
         private float _edition;
 
-        private bool _ritual;
-        private bool _concentration;
+        public bool _ritual { get; private set; }
+        public bool _concentration { get; private set; }
 
         private Unit _castingUnit;
         private Unit _durationUnit;
@@ -47,7 +47,15 @@ namespace SpellSearch
             string[] properties = spellFile.Split('\n');
 
             this._level = Int32.Parse(SearchFor(properties, "level: ", "Unknown Level"));
-            Boolean.TryParse(SearchFor(properties, "ritual", ""), out this._ritual);
+
+            bool r;
+            Boolean.TryParse(SearchFor(properties, "ritual", ""), out r);
+            this._ritual = r;
+
+            bool c;
+            Boolean.TryParse(SearchFor(properties, "concentration", ""), out c);
+            this._concentration = c;
+
             DetermineRange(SearchFor(properties, "range: ", "Unknown Range"));
             DetermineCastingTime(SearchFor(properties, "casting: ", "Unknown Casting Time"));
             DetermineDuration(SearchFor(properties, "duration: ", "Unknown Duration"));
@@ -166,10 +174,16 @@ namespace SpellSearch
             {
                 for(int i = 0; i < spellProperties.Length; i++)
                 {
-                    if (spellProperties[i].ToLower().Contains(word))
+                    if (spellProperties[i].ToLower().Trim().Contains(word))
                     {
-                        return spellProperties[i].Substring(word.Length);
-                    }
+                        if(word != "ritual" && word != "concentration")
+                        {
+                            return spellProperties[i].Substring(word.Length);
+                        } else
+                        {
+                            return "true";
+                        }
+                    } 
                 }
                 return "";
             }
@@ -270,13 +284,23 @@ namespace SpellSearch
         {
             string[] contents = bookFile.Split(' ');
             int pageNum;
-            if(Int32.TryParse(contents[0], out this._bookPage))
+            try
             {
-                pageNum = 1;
-            } else
+                if (Int32.TryParse(contents[0], out this._bookPage))
+                {
+                    pageNum = 1;
+                }
+                else
+                {
+                    pageNum = 0;
+                    int bp;
+                    Int32.TryParse(contents[1].Trim(), out bp);
+                    this._bookPage = bp;
+                }
+            }
+            catch(Exception e)
             {
-                pageNum = 0;
-                this._bookPage = Int32.Parse(contents[1].Trim());
+                return;
             }
 
             switch (contents[pageNum].Trim().ToLower())

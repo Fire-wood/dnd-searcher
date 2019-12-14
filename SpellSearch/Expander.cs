@@ -244,6 +244,24 @@ namespace SpellSearch
 
             int cumulativeY = 0;
             
+            // Ritual / Concentration
+            if(spell._ritual || spell._concentration)
+            {
+                Label bodyRitCon = GenerateLabel(labelFont, cumulativeY, expander.Width);
+                if(spell._ritual && spell._concentration)
+                {
+                    bodyRitCon.Text = "Spell is Ritual and requires Concentration";
+                } else if(spell._ritual)
+                {
+                    bodyRitCon.Text = "Spell is Ritual";
+                } else
+                {
+                    bodyRitCon.Text = "Spell requires Concentration";
+                }
+                bodyPanel.Controls.Add(bodyRitCon);
+                cumulativeY += bodyRitCon.Height;
+            }
+
             // Spell Range
             Label bodyRange = GenerateLabel(labelFont, cumulativeY, expander.Width);
             bodyRange.Text = "Range: " + spell.GetRange();
